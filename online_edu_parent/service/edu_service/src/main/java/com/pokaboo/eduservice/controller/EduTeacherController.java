@@ -1,7 +1,6 @@
 package com.pokaboo.eduservice.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pokaboo.commonutils.Result;
 import com.pokaboo.eduservice.entity.EduTeacher;
@@ -26,6 +25,7 @@ import java.util.List;
 @Api(value = "讲师管理", tags = {"讲师管理"})
 @RestController
 @RequestMapping("/eduservice/edu-teacher")
+@CrossOrigin
 public class EduTeacherController {
 
     @Autowired
