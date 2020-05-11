@@ -89,27 +89,27 @@ public class EduTeacherController {
     }
 
     @ApiOperation(value = "新增讲师")
-    @PostMapping
+    @PostMapping("/addTeacher")
     public Result save(
             @ApiParam(name = "teacher", value = "讲师对象", required = true)
-            @RequestBody EduTeacher teacher) {
+            @RequestBody EduTeacher eduTeacher) {
 
-        eduTeacherService.save(teacher);
+        eduTeacherService.save(eduTeacher);
         return Result.ok();
     }
 
     @ApiOperation(value = "根据ID查询讲师")
-    @GetMapping("/{id}")
+    @GetMapping("getTeacher/{id}")
     public Result getById(
             @ApiParam(name = "id", value = "讲师ID", required = true)
             @PathVariable String id) {
 
         EduTeacher teacher = eduTeacherService.getById(id);
-        return Result.ok().data("item", teacher);
+        return Result.ok().data("teacher", teacher);
     }
 
     @ApiOperation(value = "根据ID修改讲师")
-    @PutMapping("/{id}")
+    @PostMapping("updateTeacher/{id}")
     public Result updateById(
             @ApiParam(name = "id", value = "讲师ID", required = true)
             @PathVariable String id,

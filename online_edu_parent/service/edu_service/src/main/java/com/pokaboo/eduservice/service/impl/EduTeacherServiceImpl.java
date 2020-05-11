@@ -29,7 +29,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     @Override
     public void pageQuery(Page<EduTeacher> pageParam, TeacherQuery teacherQuery) {
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByAsc("sort");
+        //queryWrapper.orderByAsc("sort");
 
         if (teacherQuery != null) {
 
@@ -47,6 +47,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
             if (!StringUtils.isEmpty(teacherQuery.getEnd())) {
                 queryWrapper.le("gmt_create", teacherQuery.getEnd());
             }
+            queryWrapper.orderByDesc("gmt_create");
             baseMapper.selectPage(pageParam, queryWrapper);
         }
 
