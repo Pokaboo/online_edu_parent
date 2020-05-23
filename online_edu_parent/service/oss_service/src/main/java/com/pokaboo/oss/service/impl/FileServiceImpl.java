@@ -6,6 +6,7 @@ import com.aliyun.oss.model.PutObjectRequest;
 import com.pokaboo.oss.service.FileService;
 import com.pokaboo.oss.utils.ConstantPropertiesUtil;
 import lombok.val;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 /**
  * @author pokab
@@ -42,9 +44,14 @@ public class FileServiceImpl implements FileService {
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             String fileName = file.getOriginalFilename();
             inputStream = file.getInputStream();
-            /**
-             * bucket名称   文件名称/路径
-             */
+
+            // 防止后面上传的图片覆盖前面的图片，图片名称都加上uuid
+            String imgUUID = UUID.randomUUID().toString().replaceAll("-", "");
+            //使用joda-time工具类 设置文件夹名称
+            String folderName = new DateTime().toString("yyyy/MM/DD");
+            fileName = folderName + imgUUID + fileName;
+
+            //bucket名称   文件名称/路径
             ossClient.putObject(bucketName, fileName, inputStream);
             // 关闭OSSClient。
             ossClient.shutdown();
