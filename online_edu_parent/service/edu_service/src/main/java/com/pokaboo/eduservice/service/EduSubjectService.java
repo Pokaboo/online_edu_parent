@@ -2,7 +2,10 @@ package com.pokaboo.eduservice.service;
 
 import com.pokaboo.eduservice.entity.EduSubject;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pokaboo.eduservice.entity.subject.PrimarySubject;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +17,16 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface EduSubjectService extends IService<EduSubject> {
 
+    /**
+     * 添加课程分类
+     * @param eduSubjectService
+     * @param file
+     */
     void addSubject(EduSubjectService eduSubjectService, MultipartFile file);
+
+    /**
+     * 获取所有的课程分类
+     * @return
+     */
+    List<PrimarySubject> findAllSubject();
 }
