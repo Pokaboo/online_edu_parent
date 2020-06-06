@@ -53,7 +53,7 @@ public class EduCourseController {
     }
 
     @ApiOperation(value="更新课程信息")
-    @GetMapping("/updateCourseInfo")
+    @PostMapping("/updateCourseInfo")
     public Result updateCourseInfo(
             @ApiParam(name = "courseInfoForm", value = "课程基本信息", required = true)
             @RequestBody  CourseInfoForm courseInfoForm){

@@ -9,6 +9,7 @@ import com.pokaboo.eduservice.mapper.EduChapterMapper;
 import com.pokaboo.eduservice.service.EduChapterService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pokaboo.eduservice.service.EduVideoService;
+import com.pokaboo.servicebase.exceptionhandler.MyException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,5 +72,23 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         }
 
         return chapterAndVideoList;
+    }
+
+    /**
+     * 删除章节信息
+     * @param chapterId
+     * @return
+     */
+    @Override
+    public boolean deleteChapter(String chapterId) {
+        // 如果该章节存在课时小节，不允许删除
+        QueryWrapper<EduVideo> videoQueryWrapper = new QueryWrapper<>();
+        videoQueryWrapper.eq("chapter_id",chapterId);
+        int count = eduVideoService.count(videoQueryWrapper);
+        if(count > 0){
+            throw  new MyException(20001,"删除失败");
+        }
+        int deleteCount = baseMapper.deleteById(chapterId);
+        return deleteCount > 0;
     }
 }

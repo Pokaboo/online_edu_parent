@@ -2,6 +2,7 @@ package com.pokaboo.eduservice.controller;
 
 
 import com.pokaboo.commonutils.Result;
+import com.pokaboo.eduservice.entity.EduChapter;
 import com.pokaboo.eduservice.entity.vo.ChapterVo;
 import com.pokaboo.eduservice.entity.vo.VideoVo;
 import com.pokaboo.eduservice.service.EduChapterService;
@@ -43,5 +44,53 @@ public class EduChapterController {
         List<ChapterVo> chapterList = eduChapterService.findAllChapterInfo(courseId);
         return  Result.ok().data("chapterList",chapterList);
     }
+
+    @ApiOperation(value = "根据id查询章节信息")
+    @GetMapping("/findChapter/{chapterId}")
+    public Result findChapterInfo(
+            @ApiParam(name = "chapterId", value = "章节id", required = true)
+            @PathVariable String chapterId){
+        EduChapter eduChapter = eduChapterService.getById(chapterId);
+        return  Result.ok().data("eduChapter",eduChapter);
+    }
+
+    @ApiOperation(value="添加章节信息")
+    @PostMapping("/addChapter")
+    public Result addChapter(
+            @ApiParam(name = "eduChapter", value = "章节信息", required = true)
+            @RequestBody EduChapter eduChapter
+            ){
+        boolean save = eduChapterService.save(eduChapter);
+        if(save){
+            return Result.ok();
+        }
+        return Result.error();
+    }
+
+    @ApiOperation(value="修改章节信息")
+    @PostMapping("/updateChapter")
+    public Result updateChapter(
+            @ApiParam(name = "eduChapter", value = "章节信息", required = true)
+            @RequestBody EduChapter eduChapter
+    ){
+        boolean update = eduChapterService.updateById(eduChapter);
+        if(update){
+            return Result.ok();
+        }
+        return Result.error();
+    }
+
+    @ApiOperation(value="删除章节")
+    @DeleteMapping("/{chapterId}")
+    public Result deleteChapter(
+            @ApiParam(name = "chapterId", value = "章节id", required = true)
+            @PathVariable String chapterId ){
+        boolean flag = eduChapterService.deleteChapter(chapterId);
+        if(flag){
+            return Result.ok();
+        }
+        return Result.error();
+    }
+
 }
 
