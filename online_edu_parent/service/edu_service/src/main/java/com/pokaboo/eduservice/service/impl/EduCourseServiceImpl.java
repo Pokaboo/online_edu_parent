@@ -53,4 +53,50 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         }
         return eduCourse.getId();
     }
+
+    /**
+     * 根据id查询课程信息
+     * @param courseId
+     * @return
+     */
+    @Override
+    public CourseInfoForm findCourseInfoById(String courseId) {
+        CourseInfoForm courseInfoForm = new CourseInfoForm();
+        EduCourse eduCourse = baseMapper.selectById(courseId);
+        if(eduCourse != null){
+            BeanUtils.copyProperties(eduCourse,courseInfoForm);
+            EduCourseDescription eduCourseDescription = eduCourseDescriptionService.getById(courseId);
+            BeanUtils.copyProperties(eduCourseDescription,courseInfoForm);
+        }
+        return courseInfoForm;
+    }
+
+    /**
+     * 更新课程信息
+     * @param courseInfoForm
+     * @return
+     */
+    @Override
+    public boolean updateCourseInfo(CourseInfoForm courseInfoForm) {
+        boolean successFlag = false;
+        EduCourse eduCourse = new EduCourse();
+        BeanUtils.copyProperties(courseInfoForm,eduCourse);
+        int update = baseMapper.updateById(eduCourse);
+        if(update == 0){
+            successFlag = false;
+            throw  new MyException(20001,"更新课程信息失败");
+        }
+
+        EduCourseDescription eduCourseDescription = new EduCourseDescription();
+        BeanUtils.copyProperties(courseInfoForm,eduCourseDescription);
+        boolean update1 = eduCourseDescriptionService.updateById(eduCourseDescription);
+        if(!update1){
+            successFlag = false;
+            throw  new MyException(20001,"更新课程简介信息失败");
+        }
+        if(update > 0 && update1){
+            successFlag = true;
+        }
+        return successFlag;
+    }
 }

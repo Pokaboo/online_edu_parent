@@ -39,5 +39,30 @@ public class EduCourseController {
         }
         return Result.ok().data("courseId", courseId).message("保存成功");
     }
+
+    @ApiOperation(value="根据id获取课程信息")
+    @GetMapping("/findCourseInfoById/{courseId}")
+    public Result findCourseInfoById(
+            @ApiParam(name = "courseId", value = "课程id", required = true)
+            @PathVariable String courseId){
+       CourseInfoForm courseInfoForm =  eduCourseService.findCourseInfoById(courseId);
+       if(courseInfoForm != null){
+            return Result.ok().data("courseInfo",courseInfoForm);
+       }
+       return Result.error().message("查询课程信息失败");
+    }
+
+    @ApiOperation(value="更新课程信息")
+    @GetMapping("/updateCourseInfo")
+    public Result updateCourseInfo(
+            @ApiParam(name = "courseInfoForm", value = "课程基本信息", required = true)
+            @RequestBody  CourseInfoForm courseInfoForm){
+        boolean updateFlag =  eduCourseService.updateCourseInfo(courseInfoForm);
+        if(updateFlag){
+            return Result.ok();
+        }
+        return Result.error().message("更新课程信息失败");
+    }
+
 }
 
