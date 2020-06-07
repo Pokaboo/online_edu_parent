@@ -33,6 +33,7 @@ public class EduChapterController {
 
     /**
      * 根据课程id获取所有的章节以及课时信息
+     *
      * @param courseId
      * @return
      */
@@ -40,53 +41,53 @@ public class EduChapterController {
     @GetMapping("/findAllChapterInfo/{courseId}")
     public Result findAllChapterInfo(
             @ApiParam(name = "courseId", value = "课程id", required = true)
-            @PathVariable String courseId){
+            @PathVariable String courseId) {
         List<ChapterVo> chapterList = eduChapterService.findAllChapterInfo(courseId);
-        return  Result.ok().data("chapterList",chapterList);
+        return Result.ok().data("chapterList", chapterList);
     }
 
     @ApiOperation(value = "根据id查询章节信息")
     @GetMapping("/findChapter/{chapterId}")
     public Result findChapterInfo(
             @ApiParam(name = "chapterId", value = "章节id", required = true)
-            @PathVariable String chapterId){
+            @PathVariable String chapterId) {
         EduChapter eduChapter = eduChapterService.getById(chapterId);
-        return  Result.ok().data("eduChapter",eduChapter);
+        return Result.ok().data("eduChapter", eduChapter);
     }
 
-    @ApiOperation(value="添加章节信息")
+    @ApiOperation(value = "添加章节信息")
     @PostMapping("/addChapter")
     public Result addChapter(
             @ApiParam(name = "eduChapter", value = "章节信息", required = true)
             @RequestBody EduChapter eduChapter
-            ){
+    ) {
         boolean save = eduChapterService.save(eduChapter);
-        if(save){
+        if (save) {
             return Result.ok();
         }
         return Result.error();
     }
 
-    @ApiOperation(value="修改章节信息")
+    @ApiOperation(value = "修改章节信息")
     @PostMapping("/updateChapter")
     public Result updateChapter(
             @ApiParam(name = "eduChapter", value = "章节信息", required = true)
             @RequestBody EduChapter eduChapter
-    ){
+    ) {
         boolean update = eduChapterService.updateById(eduChapter);
-        if(update){
+        if (update) {
             return Result.ok();
         }
         return Result.error();
     }
 
-    @ApiOperation(value="删除章节")
+    @ApiOperation(value = "删除章节")
     @DeleteMapping("/{chapterId}")
     public Result deleteChapter(
             @ApiParam(name = "chapterId", value = "章节id", required = true)
-            @PathVariable String chapterId ){
+            @PathVariable String chapterId) {
         boolean flag = eduChapterService.deleteChapter(chapterId);
-        if(flag){
+        if (flag) {
             return Result.ok();
         }
         return Result.error();

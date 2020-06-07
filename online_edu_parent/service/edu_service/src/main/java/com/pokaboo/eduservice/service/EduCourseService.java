@@ -3,6 +3,7 @@ package com.pokaboo.eduservice.service;
 import com.pokaboo.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pokaboo.eduservice.entity.vo.CourseInfoForm;
+import com.pokaboo.eduservice.entity.vo.CoursePublishVo;
 
 /**
  * <p>
@@ -33,4 +34,11 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     boolean updateCourseInfo(CourseInfoForm courseInfoForm);
+
+    /**
+     * 获取课程发布信息
+     * @param courseId
+     * @return
+     */
+    CoursePublishVo findCoursePublishInfo(String courseId);
 }

@@ -3,6 +3,7 @@ package com.pokaboo.eduservice.service.impl;
 import com.pokaboo.eduservice.entity.EduCourse;
 import com.pokaboo.eduservice.entity.EduCourseDescription;
 import com.pokaboo.eduservice.entity.vo.CourseInfoForm;
+import com.pokaboo.eduservice.entity.vo.CoursePublishVo;
 import com.pokaboo.eduservice.mapper.EduCourseMapper;
 import com.pokaboo.eduservice.service.EduCourseDescriptionService;
 import com.pokaboo.eduservice.service.EduCourseService;
@@ -98,5 +99,15 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             successFlag = true;
         }
         return successFlag;
+    }
+
+    /**
+     * 获取课程发布信息
+     * @param courseId
+     * @return
+     */
+    @Override
+    public CoursePublishVo findCoursePublishInfo(String courseId) {
+        return baseMapper.findCoursePublishInfo(courseId);
     }
 }
