@@ -91,4 +91,15 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         int deleteCount = baseMapper.deleteById(chapterId);
         return deleteCount > 0;
     }
+
+    /**
+     * 删除课程下的章节信息
+     * @param courseId
+     */
+    @Override
+    public void removeByCourseId(String courseId) {
+        QueryWrapper<EduChapter> chapterQueryWrapper = new QueryWrapper<>();
+        chapterQueryWrapper.eq("course_id",courseId);
+        baseMapper.delete(chapterQueryWrapper);
+    }
 }

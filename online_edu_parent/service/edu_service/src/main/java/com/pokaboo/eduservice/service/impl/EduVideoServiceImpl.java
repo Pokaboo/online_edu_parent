@@ -1,5 +1,6 @@
 package com.pokaboo.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pokaboo.eduservice.entity.EduVideo;
 import com.pokaboo.eduservice.mapper.EduVideoMapper;
 import com.pokaboo.eduservice.service.EduVideoService;
@@ -17,4 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> implements EduVideoService {
 
+    @Override
+    public void removeByCourseId(String courseId) {
+        QueryWrapper<EduVideo> videoQueryWrapper = new QueryWrapper<>();
+        videoQueryWrapper.eq("course_id", courseId);
+        baseMapper.delete(videoQueryWrapper);
+    }
 }
