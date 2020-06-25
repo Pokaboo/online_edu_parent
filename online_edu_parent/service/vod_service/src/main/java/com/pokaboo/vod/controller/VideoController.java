@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 /**
  * @author 阿里云视频点播
@@ -39,5 +41,14 @@ public class VideoController {
 
         videoService.removeVideo(videoId);
         return Result.ok().message("视频删除成功");
+    }
+
+    @ApiOperation(value = "批量视频删除")
+    @DeleteMapping("/deleteBatch")
+    public Result deleteBatch(
+            @ApiParam(name = "videoIdList", value = "云端视频id集合", required = true)
+            @RequestParam("videoIdList") List<String> videoIdList) {
+        videoService.deleteBatchAliyunVideo(videoIdList);
+        return Result.ok();
     }
 }

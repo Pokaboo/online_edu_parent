@@ -2,6 +2,7 @@ package com.pokaboo.eduservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pokaboo.eduservice.client.VodClient;
 import com.pokaboo.eduservice.entity.EduCourse;
 import com.pokaboo.eduservice.entity.EduCourseDescription;
 import com.pokaboo.eduservice.entity.vo.CourseInfoForm;
@@ -39,6 +40,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Autowired
     private EduChapterService eduChapterService;
+
 
     /**
      * 新增课程
@@ -130,33 +132,26 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     public void pageQuery(Page<EduCourse> pageParam, CourseQuery courseQuery) {
         QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("gmt_create");
-
         if (courseQuery == null) {
             baseMapper.selectPage(pageParam, queryWrapper);
             return;
         }
-
         String title = courseQuery.getTitle();
         String teacherId = courseQuery.getTeacherId();
         String subjectParentId = courseQuery.getSubjectParentId();
         String subjectId = courseQuery.getSubjectId();
-
         if (!StringUtils.isEmpty(title)) {
             queryWrapper.like("title", title);
         }
-
         if (!StringUtils.isEmpty(teacherId)) {
             queryWrapper.eq("teacher_id", teacherId);
         }
-
         if (!StringUtils.isEmpty(subjectParentId)) {
             queryWrapper.ge("subject_parent_id", subjectParentId);
         }
-
         if (!StringUtils.isEmpty(subjectId)) {
             queryWrapper.ge("subject_id", subjectId);
         }
-
         baseMapper.selectPage(pageParam, queryWrapper);
     }
 
@@ -168,9 +163,13 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
      */
     @Override
     public boolean removeCourse(String courseId) {
+        // 删除小节以及视频
         eduVideoService.removeByCourseId(courseId);
+        // 删除章节
         eduChapterService.removeByCourseId(courseId);
+        // 删除课程描述
         eduCourseDescriptionService.removeById(courseId);
+        // 删除课程
         int delete = baseMapper.deleteById(courseId);
 
         if (delete > 0) {

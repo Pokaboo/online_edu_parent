@@ -17,13 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author pokab
  */
 @Service
 public class VideoServiceImpl implements VideoService {
-
 
     /**
      * 上传视频到阿里云
@@ -63,24 +63,39 @@ public class VideoServiceImpl implements VideoService {
 
     /**
      * 删除视频
+     *
      * @param videoId
      */
     @Override
     public void removeVideo(String videoId) {
-        try{
+        try {
             DefaultAcsClient client = AliyunVodSDKUtils.initVodClient(
                     ConstantVodUtil.ACCESS_KEY_ID,
                     ConstantVodUtil.ACCESS_KEY_SECRET);
-
             DeleteVideoRequest request = new DeleteVideoRequest();
-
             request.setVideoIds(videoId);
-
             DeleteVideoResponse response = client.getAcsResponse(request);
-
             System.out.print("RequestId = " + response.getRequestId() + "\n");
+        } catch (ClientException e) {
+            throw new MyException(20001, "视频删除失败");
+        }
+    }
 
-        }catch (ClientException e){
+    /**
+     * 批量删除视频
+     * @param videoIdList
+     */
+    @Override
+    public void deleteBatchAliyunVideo(List<String> videoIdList) {
+        try {
+            DefaultAcsClient client = AliyunVodSDKUtils.initVodClient(
+                    ConstantVodUtil.ACCESS_KEY_ID,
+                    ConstantVodUtil.ACCESS_KEY_SECRET);
+            DeleteVideoRequest request = new DeleteVideoRequest();
+            request.setVideoIds(org.apache.commons.lang.StringUtils.join(videoIdList.toArray(),","));
+            DeleteVideoResponse response = client.getAcsResponse(request);
+            System.out.print("RequestId = " + response.getRequestId() + "\n");
+        } catch (ClientException e) {
             throw new MyException(20001, "视频删除失败");
         }
     }
