@@ -2,12 +2,14 @@ package com.pokaboo.eduservice.controller;
 
 
 import com.pokaboo.commonutils.Result;
+import com.pokaboo.eduservice.client.VodClient;
 import com.pokaboo.eduservice.entity.EduVideo;
 import com.pokaboo.eduservice.service.EduVideoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,8 @@ public class EduVideoController {
     @Autowired
     private EduVideoService eduVideoService;
 
+    @Autowired
+    private VodClient vodClient;
 
     @ApiOperation(value = "添加课时")
     @PostMapping("/saveVideo")
@@ -61,6 +65,11 @@ public class EduVideoController {
             @ApiParam(value = "id", name = "课时id", required = true)
             @PathVariable String id
     ) {
+        EduVideo eduVideo = eduVideoService.getById(id);
+        if(eduVideo != null && StringUtils.isNotBlank(eduVideo.getVideoSourceId())){
+            System.out.println("调用了vod-service");
+            vodClient.removeVideo(eduVideo.getVideoSourceId());
+        }
         boolean remove = eduVideoService.removeById(id);
         if (remove) {
             return Result.ok();
