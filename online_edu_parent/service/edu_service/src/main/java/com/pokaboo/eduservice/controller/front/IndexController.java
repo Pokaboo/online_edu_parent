@@ -49,6 +49,6 @@ public class IndexController {
         wrapperTeacher.last("limit 4");
         List<EduTeacher> teacherList = teacherService.list(wrapperTeacher);
 
-        return Result.ok().data("eduList", eduList).data("teacherList", teacherList);
+        return Result.ok().data("courseList", eduList).data("teacherList", teacherList);
     }
 }

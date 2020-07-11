@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Api(value = "banner管理", tags = {"banner管理"})
 @RestController
-@RequestMapping("/cmsservice/frontbanner")
+@RequestMapping("/educms/frontbanner")
 @CrossOrigin
 public class CrmBannerController {
 
@@ -34,7 +34,7 @@ public class CrmBannerController {
 
     @ApiOperation(value = "获取首页banner")
     @GetMapping("/getAllBanner")
-    public Result index() {
+    public Result getAllBanner() {
         List<CrmBanner> list = crmBannerService.selectList();
         return Result.ok().data("bannerList", list);
     }

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(value = "banner后台管理", tags = {"banner后台管理"})
 @RestController
-@RequestMapping("/cmsservice/adminbanner")
+@RequestMapping("/educms/adminbanner")
 @CrossOrigin
 public class CrmBannerAdminController {
     @Autowired
