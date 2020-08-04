@@ -16,6 +16,7 @@
         <module>oss_service</module>
         <module>vod_service</module>
         <module>cms_service</module>
+        <module>msm_service</module>
     </modules>
 
     <dependencies>
