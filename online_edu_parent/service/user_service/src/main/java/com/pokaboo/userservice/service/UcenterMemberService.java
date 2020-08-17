@@ -34,4 +34,11 @@ public interface UcenterMemberService extends IService<UcenterMember> {
      * @return
      */
     UcenterMember getLoginInfo(String memberId);
+
+    /**
+     * 根据openid获取用户信息
+     * @param openid
+     * @return
+     */
+    UcenterMember getByOpenid(String openid);
 }

@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 @Api(value = "用户服务", tags = {"用户服务"})
 @CrossOrigin
 @RestController
-@RequestMapping("/userservice/ucenter-member")
+@RequestMapping("/eduucenter/ucenter")
 public class UcenterMemberController {
 
     @Autowired
