@@ -7,6 +7,8 @@ import com.pokaboo.eduservice.entity.vo.CourseInfoForm;
 import com.pokaboo.eduservice.entity.vo.CoursePublishVo;
 import com.pokaboo.eduservice.entity.vo.CourseQuery;
 
+import java.util.List;
+
 /**
  * <p>
  * 课程 服务类
@@ -57,4 +59,11 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     boolean removeCourse(String courseId);
+
+    /**
+     * 获取讲师所属的课程
+     * @param id
+     * @return
+     */
+    List<EduCourse> findCourseInfoByTeacherId(String id);
 }
