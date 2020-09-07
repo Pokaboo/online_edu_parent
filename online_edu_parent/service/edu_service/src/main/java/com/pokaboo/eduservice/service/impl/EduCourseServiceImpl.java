@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pokaboo.eduservice.client.VodClient;
 import com.pokaboo.eduservice.entity.EduCourse;
 import com.pokaboo.eduservice.entity.EduCourseDescription;
+import com.pokaboo.eduservice.entity.frontvo.CourseQueryVo;
 import com.pokaboo.eduservice.entity.vo.CourseInfoForm;
 import com.pokaboo.eduservice.entity.vo.CoursePublishVo;
 import com.pokaboo.eduservice.entity.vo.CourseQuery;
@@ -21,7 +22,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -194,5 +197,58 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
         List<EduCourse> courseList = baseMapper.selectList(queryWrapper);
         return courseList;
+    }
+
+    /**
+     * 课程分页查询
+     *
+     * @param pageParam
+     * @return
+     */
+    @Override
+    public Map<String, Object> pageCourseList(Page<EduCourse> pageParam, CourseQueryVo courseQuery) {
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        if (courseQuery != null){
+            if (!StringUtils.isEmpty(courseQuery.getSubjectParentId())) {
+                queryWrapper.eq("subject_parent_id", courseQuery.getSubjectParentId());
+            }
+
+            if (!StringUtils.isEmpty(courseQuery.getSubjectId())) {
+                queryWrapper.eq("subject_id", courseQuery.getSubjectId());
+            }
+
+            if (!StringUtils.isEmpty(courseQuery.getBuyCountSort())) {
+                queryWrapper.orderByDesc("buy_count");
+            }
+
+            if (!StringUtils.isEmpty(courseQuery.getGmtCreateSort())) {
+                queryWrapper.orderByDesc("gmt_create");
+            }
+
+            if (!StringUtils.isEmpty(courseQuery.getPriceSort())) {
+                queryWrapper.orderByDesc("price");
+            }
+        }
+
+        baseMapper.selectPage(pageParam, queryWrapper);
+
+        List<EduCourse> records = pageParam.getRecords();
+        long current = pageParam.getCurrent();
+        long pages = pageParam.getPages();
+        long size = pageParam.getSize();
+        long total = pageParam.getTotal();
+        boolean hasNext = pageParam.hasNext();
+        boolean hasPrevious = pageParam.hasPrevious();
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("items", records);
+        map.put("current", current);
+        map.put("pages", pages);
+        map.put("size", size);
+        map.put("total", total);
+        map.put("hasNext", hasNext);
+        map.put("hasPrevious", hasPrevious);
+
+        return map;
     }
 }

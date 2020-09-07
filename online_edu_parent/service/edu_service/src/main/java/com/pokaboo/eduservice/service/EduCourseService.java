@@ -3,11 +3,13 @@ package com.pokaboo.eduservice.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pokaboo.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pokaboo.eduservice.entity.frontvo.CourseQueryVo;
 import com.pokaboo.eduservice.entity.vo.CourseInfoForm;
 import com.pokaboo.eduservice.entity.vo.CoursePublishVo;
 import com.pokaboo.eduservice.entity.vo.CourseQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -66,4 +68,13 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     List<EduCourse> findCourseInfoByTeacherId(String id);
+
+
+    /**
+     * 分页查询课程
+     * @param pageParam
+     * @param courseQuery
+     * @return
+     */
+    Map<String, Object> pageCourseList(Page<EduCourse> pageParam, CourseQueryVo courseQuery);
 }
