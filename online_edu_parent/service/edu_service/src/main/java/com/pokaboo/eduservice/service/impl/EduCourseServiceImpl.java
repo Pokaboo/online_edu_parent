@@ -6,6 +6,7 @@ import com.pokaboo.eduservice.client.VodClient;
 import com.pokaboo.eduservice.entity.EduCourse;
 import com.pokaboo.eduservice.entity.EduCourseDescription;
 import com.pokaboo.eduservice.entity.frontvo.CourseQueryVo;
+import com.pokaboo.eduservice.entity.frontvo.CourseWebVo;
 import com.pokaboo.eduservice.entity.vo.CourseInfoForm;
 import com.pokaboo.eduservice.entity.vo.CoursePublishVo;
 import com.pokaboo.eduservice.entity.vo.CourseQuery;
@@ -250,5 +251,15 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         map.put("hasPrevious", hasPrevious);
 
         return map;
+    }
+
+    /**
+     * 获取课程详情
+     * @param courseId
+     * @return
+     */
+    @Override
+    public CourseWebVo getCourseInfo(String courseId) {
+        return baseMapper.getCourseInfo(courseId);
     }
 }

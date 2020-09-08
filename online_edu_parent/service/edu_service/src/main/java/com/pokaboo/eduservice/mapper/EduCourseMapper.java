@@ -2,6 +2,7 @@ package com.pokaboo.eduservice.mapper;
 
 import com.pokaboo.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.pokaboo.eduservice.entity.frontvo.CourseWebVo;
 import com.pokaboo.eduservice.entity.vo.CoursePublishVo;
 
 /**
@@ -20,4 +21,11 @@ public interface EduCourseMapper extends BaseMapper<EduCourse> {
      * @return
      */
     CoursePublishVo findCoursePublishInfo(String courseId);
+
+    /**
+     * 获取课程详情
+     * @param courseId
+     * @return
+     */
+    CourseWebVo getCourseInfo(String courseId);
 }

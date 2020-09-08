@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pokaboo.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pokaboo.eduservice.entity.frontvo.CourseQueryVo;
+import com.pokaboo.eduservice.entity.frontvo.CourseWebVo;
 import com.pokaboo.eduservice.entity.vo.CourseInfoForm;
 import com.pokaboo.eduservice.entity.vo.CoursePublishVo;
 import com.pokaboo.eduservice.entity.vo.CourseQuery;
@@ -77,4 +78,11 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     Map<String, Object> pageCourseList(Page<EduCourse> pageParam, CourseQueryVo courseQuery);
+
+    /**
+     * 获取课程详情
+     * @param courseId
+     * @return
+     */
+    CourseWebVo getCourseInfo(String courseId);
 }

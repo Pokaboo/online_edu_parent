@@ -5,6 +5,9 @@ import com.pokaboo.commonutils.Result;
 import com.pokaboo.eduservice.entity.EduCourse;
 import com.pokaboo.eduservice.entity.EduTeacher;
 import com.pokaboo.eduservice.entity.frontvo.CourseQueryVo;
+import com.pokaboo.eduservice.entity.frontvo.CourseWebVo;
+import com.pokaboo.eduservice.entity.vo.ChapterVo;
+import com.pokaboo.eduservice.service.EduChapterService;
 import com.pokaboo.eduservice.service.EduCourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +15,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +32,8 @@ public class CourseFrontController {
     @Autowired
     private EduCourseService eduCourseService;
 
+    @Autowired
+    private EduChapterService eduChapterService;
 
     @ApiOperation(value = "分页课程列表")
     @PostMapping(value = "/pageCourseList/{page}/{limit}")
@@ -41,10 +47,26 @@ public class CourseFrontController {
                                  @RequestBody(required = false) CourseQueryVo courseQuery) {
 
         Page<EduCourse> pageParam = new Page<EduCourse>(page, limit);
-        Map<String, Object> map = eduCourseService.pageCourseList(pageParam,courseQuery);
+        Map<String, Object> map = eduCourseService.pageCourseList(pageParam, courseQuery);
         return Result.ok().data(map);
 
     }
 
+    /**
+     * 获取课程详情
+     *
+     * @param courseId
+     * @return
+     */
+    @ApiOperation(value = "课程详情")
+    @GetMapping("/getCourseInfo/{courseId}")
+    public Result getCourseInfo(
+            @ApiParam(name = "courseId", value = "课程id", required = true)
+            @PathVariable String courseId
+    ) {
+        CourseWebVo courseWebVo = eduCourseService.getCourseInfo(courseId);
+        List<ChapterVo> chapterVoList = eduChapterService.findAllChapterInfo(courseId);
+        return Result.ok().data("courseWebVo", courseWebVo).data("chapterVoList", chapterVoList);
+    }
 }
 
