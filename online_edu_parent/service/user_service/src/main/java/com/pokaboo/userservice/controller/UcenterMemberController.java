@@ -63,5 +63,14 @@ public class UcenterMemberController {
             throw new MyException(20001, "error");
         }
     }
+
+    @ApiOperation(value = "获取指定日期注册人数")
+    @GetMapping(value = "/countregister/{day}")
+    public Result registerCount(
+            @ApiParam(name = "day", value = "日期", required = true)
+            @PathVariable String day) {
+        Integer count = ucenterMemberService.countRegisterByDay(day);
+        return Result.ok().data("countRegister", count);
+    }
 }
 
