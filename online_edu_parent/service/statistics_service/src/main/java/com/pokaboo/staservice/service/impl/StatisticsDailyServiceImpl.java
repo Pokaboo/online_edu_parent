@@ -11,6 +11,11 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 网站统计日数据 服务实现类
@@ -50,5 +55,52 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
 
         baseMapper.delete(queryWrapper);
 
+    }
+
+    /**
+     * 数据统计
+     *
+     * @param type
+     * @param start
+     * @param end
+     * @return
+     */
+    @Override
+    public Map<String, Object> showChart(String type, String start, String end) {
+        Map<String, Object> dataMap = new HashMap<>();
+        List<String> date_calculatedList = new ArrayList<>();
+        List<Integer> dataNum = new ArrayList<>();
+
+        QueryWrapper<StatisticsDaily> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("date_calculated", type);
+        queryWrapper.between("date_calculated", start, end);
+
+        List<StatisticsDaily> dailyList = baseMapper.selectList(queryWrapper);
+        if (dailyList != null && !dailyList.isEmpty()) {
+            for (StatisticsDaily statisticsDaily : dailyList) {
+                date_calculatedList.add(statisticsDaily.getDateCalculated());
+                switch (type) {
+                    case "register_num":
+                        dataNum.add(statisticsDaily.getRegisterNum());
+                        break;
+                    case "login_num":
+                        dataNum.add(statisticsDaily.getLoginNum());
+                        break;
+                    case "video_view_num":
+                        dataNum.add(statisticsDaily.getVideoViewNum());
+                        break;
+                    case "course_num":
+                        dataNum.add(statisticsDaily.getCourseNum());
+                        break;
+                    default:
+                        break;
+                }
+            }
+            dataMap.put("date_calculatedList", date_calculatedList);
+            dataMap.put("dataNum", dataNum);
+            return dataMap;
+        }
+
+        return null;
     }
 }
